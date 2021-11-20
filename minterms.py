@@ -1,3 +1,19 @@
+# Hey this looks like a pretty useful program, I wonder what its calle-
+#  ______   ______     __  __     ______   __  __        ______     ______     ______     __  __     ______   ______     ______    
+# /\__  _\ /\  == \   /\ \/\ \   /\__  _\ /\ \_\ \      /\  ___\   /\  == \   /\  __ \   /\ \/\ \   /\  == \ /\  ___\   /\  == \   
+# \/_/\ \/ \ \  __<   \ \ \_\ \  \/_/\ \/ \ \  __ \     \ \ \__ \  \ \  __<   \ \ \/\ \  \ \ \_\ \  \ \  _-/ \ \  __\   \ \  __<   
+#    \ \_\  \ \_\ \_\  \ \_____\    \ \_\  \ \_\ \_\     \ \_____\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_\    \ \_____\  \ \_\ \_\ 
+#     \/_/   \/_/ /_/   \/_____/     \/_/   \/_/\/_/      \/_____/   \/_/ /_/   \/_____/   \/_____/   \/_/     \/_____/   \/_/ /_/ 
+# Oh thats pretty neat, but who made i-                           
+#  __                _   _     
+# |  |   ___ ___ ___| |_|_|___ 
+# |  |__| . | . |  _|   | |_ -|
+# |_____|___|___|___|_|_|_|___|
+#
+# If you like the program, check out my blog or youtube channel too!
+# https://loochisloo.ca/
+# https://www.youtube.com/channel/UCydbaVElb4i8JquSx-kckJw
+
 # Hey, Look at the stuff you can edit here!             
 
 # These are what you want the variables to be called (For the example, U and V arent used)
@@ -116,7 +132,7 @@ def getEquation(index):
     sortedGroups = []
     nonOverlappingGroups = []
 
-    # SORTING PASS (Sort by Decreasing Grouped bits, i.e. Decreasing shitness of grouping)
+    # SORTING PASS (Sort by Decreasing Grouped bits, aka: Decreasing shitness of grouping)
     for i in sorted(groupings, key=groupings.get, reverse=True):
         sortedGroups.append(i)
 
