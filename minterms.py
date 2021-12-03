@@ -129,29 +129,85 @@ def getEquation(index):
 
     recursiveGroup([2 for i in range(numBits)])
 
+    global sortedGroups
     sortedGroups = []
     nonOverlappingGroups = []
 
     # SORTING PASS (Sort by Decreasing Grouped bits, aka: Decreasing shitness of grouping)
     for i in sorted(groupings, key=groupings.get, reverse=True):
         sortedGroups.append(i)
+    
+    global xBits
+    xBits = []
+    
+    def recursiveGetGroupedBits(x, bitNum, bitList):
+        newX = x.copy()
+        if bitNum >= len(x):
+            global xBits
+            bitList.append(newX)
+            return
+        
+        if (newX[bitNum] != 2):
+            recursiveGetGroupedBits(newX, bitNum + 1, bitList)
+        else:
+            newX[bitNum] = 0
+            recursiveGetGroupedBits(newX, bitNum + 1, bitList)
+            newX[bitNum] = 1
+            recursiveGetGroupedBits(newX, bitNum + 1, bitList)
+            
+        
+    def ReSort():        
+        global sortedGroups
+        for x in sortedGroups:
+            xBits = []
+            newX = []
+            numGroupOverlaps = 1.0
+            for i in x:
+                newX.append(int(i))
+            recursiveGetGroupedBits(newX, 0, xBits)  
+            for y in sortedGroups:
+                if (x == y):
+                    continue
+                yBits = []
+                newY = []
+                for i in y:
+                    newY.append(int(i))
+                recursiveGetGroupedBits(newY, 0, yBits)  
+                for ix in xBits:
+                    if ix in yBits:
+                        numGroupOverlaps += 1.0
+            groupings[x] = math.floor(groupings[x])
+            groupings[x] += 1.0/(numGroupOverlaps+1.0)
+    
+        sortedGroups = []
 
-    # Removes binary combinations which can be represented by DCs
-    def aIsRepresentedInB(aSet, bSet):
-        for n in range(len(aSet)-1, -1, -1):    # Loop in reverse, start at LSB and move to MSB
-            if bSet[n] == "2": continue         # If bit B is a DC, then the corresponding bit A *MUST* be a subset
-            if aSet[n] != bSet[n]:              # If there is a difference in the bits, then B does not fully contain A
-                return False
-        return True # Otherwise... Well.. Otherwise!
+        # SORTING PASS (Sort by Decreasing Grouped bits, aka: Decreasing shitness of grouping)
+        for i in sorted(groupings, key=groupings.get, reverse=True):
+            sortedGroups.append(i)    
 
-    # Assume every group is not fully contained until proven otherwise (you could make a legal system out of this)
+    # Remove groupings that are already fully contained within the sum of grouped cells
+    ReSort()
+    coveredBits = []
     for x in sortedGroups:
-        contained = False
-        for y in nonOverlappingGroups:  
-            if aIsRepresentedInB(x, y):  # Damn, proven contained
-                contained = True
-        if not contained:
+        xBits = []
+        newX = []
+        for i in x:
+            newX.append(int(i))
+        recursiveGetGroupedBits(newX, 0, xBits)
+        
+        for ii in coveredBits:  
+            try:
+                xBits.remove(ii)
+            except:
+                pass
+                       
+        if xBits:
             nonOverlappingGroups.append(x) # If group is not fully contained, append it to the final groups list
+            for i in xBits:
+                coveredBits.append(i)
+            #sortedGroups.remove(x)
+            #ReSort()
+            
 
     # Writes an Equation now, im tired, no more comments, sorry :/
     equation = ""
